@@ -1,0 +1,56 @@
+@startchen
+title TaskFlow Modelo ER Chen
+
+skinparam linetype ortho
+
+footer Nivel: Básico
+
+entity Usuarios {
+  id <<key>>
+  nombre
+  email
+  fecha_registro
+}
+
+entity Listas {
+  id <<key>>
+  nombre
+  color
+}
+
+entity Tareas {
+  id <<key>>
+  titulo
+  descripcion
+  completada
+  fecha_vencimiento
+}
+
+entity Etiquetas {
+  id <<key>>
+  nombre
+  color
+}
+
+relationship CREA_LISTA {
+  fecha_creacion
+}
+
+relationship CONTIENE {
+  posicion
+}
+
+relationship ETIQUETADA {
+  fecha_asignacion
+}
+
+Usuarios -(1,1)- CREA_LISTA
+CREA_LISTA -(0,N)- Listas
+
+Listas -(1,1)- CONTIENE
+CONTIENE -(0,N)- Tareas
+
+Tareas -(0,N)- ETIQUETADA
+ETIQUETADA -(0,N)- Etiquetas
+
+@endchen

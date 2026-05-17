@@ -1,0 +1,59 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    - name: Ejercicio 1 - Diagrama ER (Chen)
+      id: ejercicio-1-diagrama-der
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Ejercicio 1 - Diagrama ER (Chen)
+        setup-command: npm install
+        command: npm test -- tests/ejercicio/1-diagrama-der-taskflow.test.js
+        timeout: 10
+        max-score: 111
+    
+    - name: Ejercicio 2 - Relaciones y Cardinalidad
+      id: ejercicio-2-relaciones
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Ejercicio 2 - Relaciones y Cardinalidad
+        setup-command: ''
+        command: npm test -- tests/ejercicio/2-relaciones-taskflow.test.js
+        timeout: 10
+        max-score: 58
+    
+    - name: Ejercicio 3 - Modelo Lógico
+      id: ejercicio-3-modelo-logico
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Ejercicio 3 - Modelo Lógico
+        setup-command: ''
+        command: npm test -- tests/ejercicio/3-modelo-logico-taskflow.test.js
+        timeout: 10
+        max-score: 131
+    
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        EJERCICIO-1-DIAGRAMA-DER_RESULTS: "${{steps.ejercicio-1-diagrama-der.outputs.result}}"
+        EJERCICIO-2-RELACIONES_RESULTS: "${{steps.ejercicio-2-relaciones.outputs.result}}"
+        EJERCICIO-3-MODELO-LOGICO_RESULTS: "${{steps.ejercicio-3-modelo-logico.outputs.result}}"
+      with:
+        runners: ejercicio-1-diagrama-der,ejercicio-2-relaciones,ejercicio-3-modelo-logico

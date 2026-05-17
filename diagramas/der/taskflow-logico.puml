@@ -1,0 +1,40 @@
+@startuml
+title TaskFlow Modelo Lógico
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+entity Usuarios {
+  id : int <<PK>>
+  nombre : string
+  email : string
+  fecha_registro : date
+}
+
+entity Listas {
+  id : int <<PK>>
+  nombre : string
+  color : string
+  fecha_creacion : date
+}
+
+entity Tareas {
+  id : int <<PK>>
+  titulo : string
+  descripcion : string
+  completada : boolean
+  fecha_vencimiento : date
+  posicion : int
+}
+
+entity Etiquetas {
+  id : int <<PK>>
+  nombre : string
+  color : string
+}
+
+Usuarios ||--o{ Listas
+Listas ||--o{ Tareas
+Tareas }o--o{ Etiquetas
+
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+title TaskFlow Relaciones y Cardinalidad
+
+skinparam linetype ortho
+
+entity Usuarios
+entity Listas
+entity Tareas
+entity Etiquetas
+
+relationship CREA_LISTA {
+  fecha_creacion
+}
+
+relationship CONTIENE {
+  posicion
+}
+
+relationship ETIQUETADA {
+  fecha_asignacion
+}
+
+CREA_LISTA -(1,1)- Usuarios
+CREA_LISTA -(0,N)- Listas
+
+CONTIENE -(1,1)- Listas
+CONTIENE -(0,N)- Tareas
+
+ETIQUETADA -(0,N)- Tareas
+ETIQUETADA -(0,N)- Etiquetas
+
+@enduml
